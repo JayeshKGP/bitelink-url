@@ -203,7 +203,7 @@ export default function HomePage() {
                 Join thousands of users who trust BiteLink for their link management needs. It&apos;s free!
               </p>
               <Button asChild size="lg" className="mt-4">
-                <Link href="/auth">Get Started for Free</Link>
+                <Link href="/auth">Get Started</Link>
               </Button>
             </div>
           </div>
