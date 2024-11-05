@@ -8,10 +8,7 @@ import { Label } from "@/components/ui/label"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -20,7 +17,7 @@ import { useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { login, signup } from '../lib/apicalls'
 import { loadUser } from "../store/authSlice"
-import { AppDispatch } from "../store/store"
+import { AppDispatch, RootState } from "../store/store"
 import { useRouter } from 'next/navigation';
 
 
@@ -32,15 +29,15 @@ export default function AuthPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const dispatch: AppDispatch = useDispatch()
-  const { isAuth, user } = useSelector((state: RootState) => state.auth)
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth)
   const router = useRouter();
 
   React.useEffect(() => {
-    if (isAuth) {
+    if (isAuthenticated) {
       router.push('/');
     }
   }
-  , [isAuth]);
+  , [isAuthenticated]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,7 +49,7 @@ export default function AuthPage() {
         setSuccess(data.message)
         await dispatch(loadUser());
       } catch (err) {
-        setError(err.message)
+        setError((err as Error).message)
       }
     } else {
       try {
@@ -61,7 +58,7 @@ export default function AuthPage() {
         await dispatch(loadUser());
         // Redirect or update state after successful signup
       } catch (err) {
-        setError(err.message)
+        setError((err as Error).message)
       }
     }
   }

@@ -58,7 +58,9 @@ import {
   Trash2,
   ExternalLink
 } from "lucide-react"
-import { useDispatch, useSelector } from 'react-redux';
+//useDispatch AppDispatch
+import { RootState } from "../store/store"
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
   CategoryScale,
@@ -124,8 +126,9 @@ const links = [
 
 export default function DashboardPage() {
   const [selectedLink, setSelectedLink] = React.useState(links[0])
-  const dispatch = useDispatch();
-  const { isAuth, user } = useSelector((state: RootState) => state.auth);
+  //const dispatch: AppDispatch = useDispatch()
+  //use isauth useeffect
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const chartColors = {
     primary: 'rgba(53, 162, 235, 0.8)',
@@ -286,7 +289,7 @@ export default function DashboardPage() {
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Today's Clicks</CardTitle>
+                <CardTitle className="text-sm font-medium">Today&apos;s Clicks</CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>

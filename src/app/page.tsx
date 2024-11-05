@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Loader2, ChevronRight, Zap, BarChart3, Clock, QrCode } from "lucide-react"
+import { Loader2, Zap, BarChart3, QrCode } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -90,7 +90,7 @@ export default function HomePage() {
                     <Label htmlFor="customAlias">Custom Alias (Optional)</Label>
                     <div className="flex mt-1">
                       <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-300 bg-slate-100 text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400">
-                        bitelink.com/
+                        btlk.me/
                       </span>
                       <Input
                         id="customAlias"
@@ -200,7 +200,7 @@ export default function HomePage() {
                 Ready to Simplify Your Links?
               </h2>
               <p className="max-w-[600px] text-slate-300 md:text-xl dark:text-slate-700">
-                Join thousands of users who trust BiteLink for their link management needs. It's free!
+                Join thousands of users who trust BiteLink for their link management needs. It&apos;s free!
               </p>
               <Button asChild size="lg" className="mt-4">
                 <Link href="/auth">Get Started for Free</Link>

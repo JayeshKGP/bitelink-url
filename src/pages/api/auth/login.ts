@@ -39,6 +39,6 @@ export default async function loginHandler(req: NextApiRequest, res: NextApiResp
 
     return res.status(200).json({ message: 'Login successful', user: { name: user.name, email: user.email } });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 }

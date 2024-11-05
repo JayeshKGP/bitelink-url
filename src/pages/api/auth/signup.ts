@@ -56,6 +56,6 @@ export default async function signupHandler(req: NextApiRequest, res: NextApiRes
 
     return res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 }

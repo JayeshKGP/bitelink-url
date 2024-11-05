@@ -22,8 +22,8 @@ export default async function userHandler(req: NextApiRequest, res: NextApiRespo
     return res.status(200).json({
       isAuth: true,
       user: {
-        name: (decoded as any).name,
-        email: (decoded as any).email,
+      name: (decoded as { name: string; email: string }).name,
+      email: (decoded as { name: string; email: string }).email,
       },
     });
   } catch (error) {

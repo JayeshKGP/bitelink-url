@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Loader2, Share2, QrCode, ChevronRight } from "lucide-react"
+import { Loader2, Zap, BarChart3, QrCode } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,20 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 export default function HomePage() {
   const [longUrl, setLongUrl] = React.useState("")
@@ -38,197 +24,217 @@ export default function HomePage() {
   const handleShorten = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    // TODO: Implement actual API call to shorten URL
     await new Promise(resolve => setTimeout(resolve, 1500))
-    const generatedAlias = customAlias || Math.random().toString(36).substr(2, 6)
-    setShortUrl(`https://bitelink.com/${generatedAlias}`)
+    const alias = customAlias || Math.random().toString(36).substr(2, 6)
+    setShortUrl(`https://bitelink.com/${alias}`)
     setIsLoading(false)
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900">
-      <header className="px-4 lg:px-6 h-16 flex items-center border-b border-slate-200 dark:border-slate-800">
-        <Link className="flex items-center justify-center" href="/">
-          <ChainIcon className="h-6 w-6 mr-2 text-slate-800 dark:text-slate-200" />
-          <span className="text-lg font-bold text-slate-800 dark:text-slate-200">BiteLink</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link 
-            className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
-            href="/login"
-          >
-            Log In
+      <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm dark:bg-slate-900/80 border-slate-200 dark:border-slate-800">
+        <div className="container flex h-16 items-center justify-between">
+          <Link className="flex items-center justify-center" href="/">
+            <ChainIcon className="h-6 w-6 mr-2 text-primary" />
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300">
+              BiteLink
+            </span>
           </Link>
-          <Button asChild>
-            <Link href="/signup">Get Started</Link>
-          </Button>
-        </nav>
+          <nav className="flex items-center gap-4 sm:gap-6">
+            <Button asChild variant="ghost">
+              <Link href="#features">Features</Link>
+            </Button>
+            <Button asChild variant="ghost">
+              <Link href="#pricing">Pricing</Link>
+            </Button>
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Link href="/auth">Get Started</Link>
+            </Button>
+          </nav>
+        </div>
       </header>
-      <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+
+      <main className="flex-1 flex flex-col">
+        {/* Ad Placement 1: Top Banner */}
+        <div className="bg-blue-100 p-2 text-center text-sm">
+          <p>Ad Space: Top Banner - Highly visible, site-wide placement</p>
+        </div>
+
+        <section className="flex-1 flex items-center justify-center w-full py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-slate-900 dark:text-slate-50">
-                  Simplify Your Links with BiteLink
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                  Simplify Your Links, Amplify Your Reach
                 </h1>
                 <p className="mx-auto max-w-[700px] text-slate-500 md:text-xl dark:text-slate-400">
-                  Transform long URLs into concise, memorable links in seconds. Boost your online presence with our powerful URL shortener.
+                  Transform long URLs into concise, powerful links. Track, analyze, and optimize your digital presence with BiteLink.
                 </p>
               </div>
-              <div className="w-full max-w-sm space-y-2">
+              <div className="w-full max-w-md space-y-2">
                 <form onSubmit={handleShorten} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="url">Long URL</Label>
+                  <div>
+                    <Label htmlFor="longUrl">Long URL</Label>
                     <Input
-                      id="url"
-                      placeholder="https://example.com/very/long/url"
+                      id="longUrl"
+                      className="mt-1"
+                      placeholder="Paste your long URL here"
+                      type="url"
                       value={longUrl}
                       onChange={(e) => setLongUrl(e.target.value)}
                       required
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="alias">Custom Alias (optional)</Label>
-                    <Input
-                      id="alias"
-                      placeholder="my-custom-link"
-                      value={customAlias}
-                      onChange={(e) => setCustomAlias(e.target.value)}
-                    />
+                  <div>
+                    <Label htmlFor="customAlias">Custom Alias (Optional)</Label>
+                    <div className="flex mt-1">
+                      <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-300 bg-slate-100 text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400">
+                        btlk.me/
+                      </span>
+                      <Input
+                        id="customAlias"
+                        className="rounded-l-none"
+                        placeholder="your-custom-alias"
+                        type="text"
+                        value={customAlias}
+                        onChange={(e) => setCustomAlias(e.target.value)}
+                      />
+                    </div>
                   </div>
-                  <Button className="w-full" type="submit" disabled={isLoading}>
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Shortening...
-                      </>
-                    ) : (
-                      "Shorten URL"
-                    )}
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Shorten"}
                   </Button>
                 </form>
               </div>
               {shortUrl && (
-                <Card className="w-full max-w-sm">
-                  <CardHeader>
-                    <CardTitle>Your Shortened URL</CardTitle>
-                    <CardDescription>Copy and share your new link</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center space-x-2">
-                      <Input value={shortUrl} readOnly />
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => navigator.clipboard.writeText(shortUrl)}
-                      >
-                        <Share2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex justify-between">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline">
-                          <QrCode className="mr-2 h-4 w-4" />
-                          QR Code
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>QR Code for Your Shortened URL</DialogTitle>
-                          <DialogDescription>Scan this code to access your shortened link</DialogDescription>
-                        </DialogHeader>
-                        <div className="flex justify-center">
-                          <img
-                            src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shortUrl)}`}
-                            alt="QR Code"
-                            width={200}
-                            height={200}
-                          />
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline">
-                          <Share2 className="mr-2 h-4 w-4" />
-                          Share
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem>Facebook</DropdownMenuItem>
-                        <DropdownMenuItem>Twitter</DropdownMenuItem>
-                        <DropdownMenuItem>LinkedIn</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </CardFooter>
-                </Card>
+                <div className="flex items-center space-x-2 w-full max-w-md">
+                  <Input value={shortUrl} readOnly className="flex-1" />
+                  <Button onClick={() => navigator.clipboard.writeText(shortUrl)}>
+                    Copy
+                  </Button>
+                </div>
               )}
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-100 dark:bg-slate-800">
+
+        {/* Ad Placement 2: Between Sections */}
+        <div className="bg-green-100 p-4 text-center">
+          <p>Ad Space: Between Sections - Contextual placement for relevant ads</p>
+        </div>
+
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-slate-800">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8 text-slate-900 dark:text-slate-50">
-              Features
-            </h2>
-            <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Powerful Features</h2>
+            <div className="grid gap-6 lg:grid-cols-3">
               <Card>
                 <CardHeader>
+                  <Zap className="h-10 w-10 mb-2 text-primary" />
                   <CardTitle>Custom Aliases</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-500 dark:text-slate-400">
-                    Create memorable links with your own custom aliases.
-                  </p>
+                  <p>Create memorable short links with your own custom aliases for easy sharing and branding.</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>Analytics</CardTitle>
+                  <BarChart3 className="h-10 w-10 mb-2 text-primary" />
+                  <CardTitle>Basic Analytics</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-500 dark:text-slate-400">
-                    Track clicks and gather insights about your audience.
-                  </p>
+                  <p>Track clicks and get insights into your link performance to optimize your reach.</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>QR Codes</CardTitle>
+                  <QrCode className="h-10 w-10 mb-2 text-primary" />
+                  <CardTitle>QR Code Generation</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-500 dark:text-slate-400">
-                    Generate QR codes for easy sharing in print and digital media.
-                  </p>
+                  <p>Generate QR codes for your shortened links to bridge online and offline marketing.</p>
                 </CardContent>
               </Card>
             </div>
           </div>
         </section>
+
+        {/* Ad Placement 3: Sidebar (for larger screens) */}
+        <div className="hidden lg:block fixed right-0 top-1/2 transform -translate-y-1/2 bg-yellow-100 p-4">
+          <p>Ad Space: Sidebar - Persistent visibility on larger screens</p>
+        </div>
+
+        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Free Plan</h2>
+            <div className="max-w-sm mx-auto">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Always Free</CardTitle>
+                  <CardDescription>For everyone</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-4xl font-bold">$0</p>
+                  <ul className="mt-4 space-y-2">
+                    <li>Unlimited links</li>
+                    <li>Basic analytics</li>
+                    <li>Custom aliases</li>
+                    <li>QR code generation</li>
+                    <li>30-day link history</li>
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button asChild className="w-full">
+                    <Link href="/auth">Get Started</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-900 dark:bg-slate-50">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white dark:text-slate-900">
+                Ready to Simplify Your Links?
+              </h2>
+              <p className="max-w-[600px] text-slate-300 md:text-xl dark:text-slate-700">
+                Join thousands of users who trust BiteLink for their link management needs. It&apos;s free!
+              </p>
+              <Button asChild size="lg" className="mt-4">
+                <Link href="/auth">Get Started for Free</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="border-t border-slate-200 dark:border-slate-800">
-        <div className="container flex flex-col gap-2 sm:flex-row py-6 w-full items-center">
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            © 2024 BiteLink. All rights reserved.
-          </p>
-          <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-            <Link
-              className="text-xs hover:underline underline-offset-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-              href="/terms"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              className="text-xs hover:underline underline-offset-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-              href="/privacy"
-            >
-              Privacy
-            </Link>
-          </nav>
+
+      <footer className="w-full py-6 bg-white dark:bg-slate-900">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+              <ChainIcon className="h-6 w-6 text-slate-800 dark:text-slate-200" />
+              <p className="text-center text-sm leading-loose text-slate-600 dark:text-slate-400 md:text-left">
+                © 2023 BiteLink. All rights reserved.
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <Link className="text-sm hover:underline underline-offset-4" href="#">
+                Terms of Service
+              </Link>
+              <Link className="text-sm hover:underline underline-offset-4" href="#">
+                Privacy
+              </Link>
+            </div>
+          </div>
         </div>
       </footer>
+
+      {/* Ad Placement 4: Footer Banner */}
+      <div className="bg-red-100 p-2 text-center text-sm">
+        <p>Ad Space: Footer Banner - Last chance to engage users</p>
+      </div>
     </div>
   )
 }

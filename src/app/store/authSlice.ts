@@ -32,7 +32,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loadUser.fulfilled, (state, action) => {
-      state.isAuth = action.payload.isAuth;
+      state.isAuthenticated = action.payload.isAuth;
       state.user = action.payload.user;
     });
   }
