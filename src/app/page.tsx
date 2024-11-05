@@ -49,7 +49,7 @@ export default function HomePage() {
               <Link href="#pricing">Pricing</Link>
             </Button>
             <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-              <Link href="/auth">Testing</Link>
+              <Link href="/auth">Get Started</Link>
             </Button>
           </nav>
         </div>
