@@ -180,7 +180,6 @@ export default function HomePage() {
                     <li>Basic analytics</li>
                     <li>Custom aliases</li>
                     <li>QR code generation</li>
-                    <li>30-day link history</li>
                   </ul>
                 </CardContent>
                 <CardFooter>
