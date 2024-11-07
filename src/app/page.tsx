@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Loader2, Zap, BarChart3, QrCode } from "lucide-react"
+import { Loader2, Zap, BarChart3, QrCode, Clipboard, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,21 +14,42 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from "../app/store/store"
+import { createbite } from "./lib/apicalls"
+import { QRCodeSVG } from 'qrcode.react'
 
 export default function HomePage() {
   const [longUrl, setLongUrl] = React.useState("")
   const [customAlias, setCustomAlias] = React.useState("")
   const [shortUrl, setShortUrl] = React.useState("")
+  const [error, setError] = React.useState("")
   const [isLoading, setIsLoading] = React.useState(false)
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth)
 
   const handleShorten = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    setShortUrl('')
     setIsLoading(true)
     // TODO: Implement actual API call to shorten URL
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    const alias = customAlias || Math.random().toString(36).substr(2, 6)
-    setShortUrl(`https://bitelink.com/${alias}`)
+    const alias = customAlias || ''
+    try {
+      const { data } = await createbite(longUrl, alias)
+      setShortUrl(`https://btlk.me/${data.alias}`)
+    } catch (err) {
+      setError((err as Error).message)
+    }
     setIsLoading(false)
+  }
+
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText()
+      setLongUrl(text)
+    } catch (err) {
+      console.error('Failed to read clipboard contents: ', err)
+    }
   }
 
   return (
@@ -42,14 +63,9 @@ export default function HomePage() {
             </span>
           </Link>
           <nav className="flex items-center gap-4 sm:gap-6">
-            <Button asChild variant="ghost">
-              <Link href="#features">Features</Link>
-            </Button>
-            <Button asChild variant="ghost">
-              <Link href="#pricing">Pricing</Link>
-            </Button>
             <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-              <Link href="/auth">Get Started</Link>
+              {isAuthenticated ? <Link href="/dashboard">Dashboard</Link>
+                : <Link href="/auth">Get Started</Link>}
             </Button>
           </nav>
         </div>
@@ -61,7 +77,7 @@ export default function HomePage() {
           <p>Ad Space: Top Banner - Highly visible, site-wide placement</p>
         </div>
 
-        <section className="flex-1 flex items-center justify-center w-full py-12 md:py-24 lg:py-32 xl:py-48">
+        <section className="flex-1 flex items-center justify-center w-full py-6 md:py-14 lg:py-20 xl:py-28">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
@@ -76,15 +92,26 @@ export default function HomePage() {
                 <form onSubmit={handleShorten} className="space-y-4">
                   <div>
                     <Label htmlFor="longUrl">Long URL</Label>
-                    <Input
-                      id="longUrl"
-                      className="mt-1"
-                      placeholder="Paste your long URL here"
-                      type="url"
-                      value={longUrl}
-                      onChange={(e) => setLongUrl(e.target.value)}
-                      required
-                    />
+                    <div className="flex">
+                      <Input
+                        id="longUrl"
+                        className="rounded-r-none flex-grow"
+                        placeholder="Paste your long URL here"
+                        type="text"
+                        value={longUrl}
+                        onChange={(e) => setLongUrl(e.target.value)}
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="rounded-l-none"
+                        onClick={handlePaste}
+                      >
+                        <Clipboard className="h-4 w-4" />
+                        <span className="sr-only">Paste</span>
+                      </Button>
+                    </div>
                   </div>
                   <div>
                     <Label htmlFor="customAlias">Custom Alias (Optional)</Label>
@@ -108,11 +135,29 @@ export default function HomePage() {
                 </form>
               </div>
               {shortUrl && (
-                <div className="flex items-center space-x-2 w-full max-w-md">
-                  <Input value={shortUrl} readOnly className="flex-1" />
-                  <Button onClick={() => navigator.clipboard.writeText(shortUrl)}>
-                    Copy
+  <Card className="w-full max-w-md">
+    <CardHeader>
+      <CardTitle>Your Shortened Link</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-4">
+      <div className="flex items-center space-x-2">
+        <Input value={shortUrl} readOnly className="flex-1" />
+        <Button onClick={() => window.open(shortUrl, '_blank')}>
+                    <ExternalLink />
                   </Button>
+        <Button onClick={() => navigator.clipboard.writeText(shortUrl)}>
+          Copy
+        </Button>
+      </div>
+      <div className="flex justify-center">
+        <QRCodeSVG value={shortUrl} size={200} />
+      </div>
+    </CardContent>
+  </Card>
+)}
+              {error && (
+                <div className="w-full max-w-md mt-2">
+                  <p className="text-red-500 text-sm">{error}</p>
                 </div>
               )}
             </div>
@@ -164,34 +209,6 @@ export default function HomePage() {
           <p>Ad Space: Sidebar - Persistent visibility on larger screens</p>
         </div>
 
-        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Free Plan</h2>
-            <div className="max-w-sm mx-auto">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Always Free</CardTitle>
-                  <CardDescription>For everyone</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-4xl font-bold">$0</p>
-                  <ul className="mt-4 space-y-2">
-                    <li>Unlimited links</li>
-                    <li>Basic analytics</li>
-                    <li>Custom aliases</li>
-                    <li>QR code generation</li>
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <Button asChild className="w-full">
-                    <Link href="/auth">Get Started</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-          </div>
-        </section>
-
         <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-900 dark:bg-slate-50">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -201,9 +218,6 @@ export default function HomePage() {
               <p className="max-w-[600px] text-slate-300 md:text-xl dark:text-slate-700">
                 Join thousands of users who trust BiteLink for their link management needs. It&apos;s free!
               </p>
-              <Button asChild size="lg" className="mt-4">
-                <Link href="/auth">Get Started for Free</Link>
-              </Button>
             </div>
           </div>
         </section>
@@ -222,7 +236,7 @@ export default function HomePage() {
               <Link className="text-sm hover:underline underline-offset-4" href="#">
                 Terms of Service
               </Link>
-              <Link className="text-sm hover:underline underline-offset-4" href="#">
+              <Link className="text-sm hover:underline underline-offset-4" href="/privacy">
                 Privacy
               </Link>
             </div>

@@ -6,8 +6,6 @@ const options: MongoClientOptions = {
   
 };
 
-
-
 const client = new MongoClient(uri, options);
 const clientPromise = client.connect();
 
