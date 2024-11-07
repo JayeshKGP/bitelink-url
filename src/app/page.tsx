@@ -9,13 +9,11 @@ import { Label } from "@/components/ui/label"
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from "../app/store/store"
+import { useSelector } from 'react-redux'
+import { RootState } from "../app/store/store"
 import { createbite } from "./lib/apicalls"
 import { QRCodeSVG } from 'qrcode.react'
 
@@ -56,7 +54,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900">
       <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm dark:bg-slate-900/80 border-slate-200 dark:border-slate-800">
         <div className="container flex h-16 items-center justify-between">
-          <Link className="flex items-center justify-center" href="/">
+          <Link className="flex items-center justify-center pl-4" href="/">
             <ChainIcon className="h-6 w-6 mr-2 text-primary" />
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300">
               BiteLink
@@ -135,26 +133,26 @@ export default function HomePage() {
                 </form>
               </div>
               {shortUrl && (
-  <Card className="w-full max-w-md">
-    <CardHeader>
-      <CardTitle>Your Shortened Link</CardTitle>
-    </CardHeader>
-    <CardContent className="space-y-4">
-      <div className="flex items-center space-x-2">
-        <Input value={shortUrl} readOnly className="flex-1" />
-        <Button onClick={() => window.open(shortUrl, '_blank')}>
-                    <ExternalLink />
-                  </Button>
-        <Button onClick={() => navigator.clipboard.writeText(shortUrl)}>
-          Copy
-        </Button>
-      </div>
-      <div className="flex justify-center">
-        <QRCodeSVG value={shortUrl} size={200} />
-      </div>
-    </CardContent>
-  </Card>
-)}
+                <Card className="w-full max-w-md">
+                  <CardHeader>
+                    <CardTitle>Your Shortened Link</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center space-x-2">
+                      <Input value={shortUrl} readOnly className="flex-1" />
+                      <Button onClick={() => window.open(shortUrl, '_blank')}>
+                        <ExternalLink />
+                      </Button>
+                      <Button onClick={() => navigator.clipboard.writeText(shortUrl)}>
+                        Copy
+                      </Button>
+                    </div>
+                    <div className="flex justify-center">
+                      <QRCodeSVG value={shortUrl} size={200} />
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
               {error && (
                 <div className="w-full max-w-md mt-2">
                   <p className="text-red-500 text-sm">{error}</p>
