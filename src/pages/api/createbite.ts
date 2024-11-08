@@ -1,23 +1,29 @@
 // pages/api/createbite.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { MongoClient } from 'mongodb';
 import { nanoid } from 'nanoid'; // A library to generate unique IDs
 import clientPromise from '@/lib/mongodb';
+import { Collection, OptionalId } from 'mongodb';
 
 interface DecodedToken extends JwtPayload {
   name: string;
   email: string;
 }
 
-const generateUniqueAlias = async (collection: any): Promise<string> => {
-  let alias = '';
-  let exists = true;
-  while (exists) {
-    alias = nanoid(8); // Generate an 8-character random alias
-    exists = await collection.findOne({ alias });
-  }
-  return alias;
+interface ShortUrlDocument extends Document {
+  mainurl: string;
+  alias: string;
+  createdAt: Date;
+  user?: string | null;
+}
+const generateUniqueAlias = async (collection: Collection<ShortUrlDocument>): Promise<string> => {
+    let alias = '';
+    let exists: ShortUrlDocument | null;
+    do {
+      alias = nanoid(8); // Generate an 8-character random alias
+      exists = await collection.findOne({ alias });
+    } while (exists !== null);
+    return alias;
 };
 
 export default async function createBiteHandler(req: NextApiRequest, res: NextApiResponse) {
@@ -39,13 +45,13 @@ export default async function createBiteHandler(req: NextApiRequest, res: NextAp
       userEmail = decoded.email;
     } catch (error) {
       // Token is invalid or expired
-      return res.status(401).json({ message: 'Invalid token' });
+      return res.status(401).json({ message: (error as Error).message });
     }
   }
 
   // Connect to MongoDB
   const client = await clientPromise;
-  const collection = client.db('Data').collection('BiteLinks');
+  const collection = client.db('Data').collection('BiteLinks') as Collection<ShortUrlDocument>;
 
   let alias = aliasFromBody;
 
@@ -59,12 +65,12 @@ export default async function createBiteHandler(req: NextApiRequest, res: NextAp
   }
 
   // Create and insert the new short URL document
-  const shortUrlDocument = {
+  const shortUrlDocument: OptionalId<ShortUrlDocument> = {
     mainurl,
     alias,
     createdAt: new Date(),
-    user: userEmail || null,
-  };
+    user: userEmail,
+  } as ShortUrlDocument;
 
   await collection.insertOne(shortUrlDocument);
 
