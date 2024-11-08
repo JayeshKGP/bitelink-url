@@ -36,3 +36,21 @@ export const login = async (email: string, password: string) => {
 
   return await response.json();
 };
+
+export const createbite = async (mainurl: string, alias: string) => {
+  const response = await fetch(`${API_URL}/createbite`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ mainurl, alias }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Something went wrong');
+  }
+
+  return await response.json();
+}
