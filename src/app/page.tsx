@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Loader2, Zap, BarChart3, QrCode, Clipboard, ExternalLink, LinkIcon, Sparkles, Rocket, Lock, Smartphone, BarChart, Globe, Share2 } from "lucide-react"
+import { Loader2, Zap, BarChart3, QrCode, Clipboard, ExternalLink, LinkIcon, Sparkles, Rocket, Lock, Smartphone, Share2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
