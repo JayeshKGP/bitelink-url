@@ -11,6 +11,12 @@ import {
   CardFooter,
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ChevronLeft, Mail, Lock, User, CheckCircle, XCircle } from "lucide-react"
 import { useState } from "react"
@@ -135,12 +141,24 @@ export default function AuthPage() {
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
                   {isLogin && (
-                    <Link
-                      className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
-                      href="/forgot-password"
-                    >
-                      Forgot password?
-                    </Link>
+                    <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400 cursor-not-allowed">
+                          Forgot password?
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Coming soon</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                    // <Link
+                    //   className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+                    //   href="/forgot-password"
+                    // >
+                    //   Forgot password?
+                    // </Link>
                   )}
                 </div>
                 <div className="relative">
@@ -168,14 +186,41 @@ export default function AuthPage() {
             <div className="mt-6">
               <Separator className="my-4" />
               <div className="flex flex-col space-y-2">
-                <Button variant="outline" className="w-full">
+                {/* remove this TooltipProvider */}
+              <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="outline" className="w-full cursor-not-allowed opacity-50" disabled>
+                        <GoogleIcon className="mr-2 h-4 w-4" />
+                        Continue with Google
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Coming soon</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="outline" className="w-full cursor-not-allowed opacity-50" disabled>
+                        <GithubIcon className="mr-2 h-4 w-4" />
+                        Continue with GitHub
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Coming soon</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                {/* <Button variant="outline" className="w-full">
                   <GoogleIcon className="mr-2 h-4 w-4" />
                   Continue with Google
                 </Button>
                 <Button variant="outline" className="w-full">
                   <GithubIcon className="mr-2 h-4 w-4" />
                   Continue with GitHub
-                </Button>
+                </Button> */}
               </div>
             </div>
           </CardContent>
