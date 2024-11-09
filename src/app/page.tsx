@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from "../app/store/store"
 import { createbite } from "./lib/apicalls"
 import { QRCodeSVG } from 'qrcode.react'
+import Head from "next/head"
 
 export default function HomePage() {
   const [longUrl, setLongUrl] = React.useState("")
@@ -51,6 +52,14 @@ export default function HomePage() {
   }
 
   return (
+    <>
+      <Head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4959852848090953"
+          crossOrigin="anonymous"
+        ></script>
+      </Head>
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900">
       <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm dark:bg-slate-900/80 border-slate-200 dark:border-slate-800">
         <div className="container flex h-16 items-center justify-between">
@@ -256,6 +265,7 @@ export default function HomePage() {
         <p>Ad Space: Footer Banner - Last chance to engage users</p>
       </div> */}
     </div>
+    </>
   )
 }
 
