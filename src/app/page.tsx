@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Loader2, Zap, BarChart3, QrCode, Clipboard, ExternalLink } from "lucide-react"
+import { Loader2, Zap, BarChart3, QrCode, Clipboard, ExternalLink, LinkIcon, Sparkles, Rocket, Lock, Smartphone, BarChart, Globe, Share2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -71,12 +71,21 @@ export default function HomePage() {
 
       <main className="flex-1 flex flex-col">
         {/* Ad Placement 1: Top Banner */}
-        <div className="bg-blue-100 p-2 text-center text-sm">
+        {/* <div className="bg-blue-100 p-2 text-center text-sm">
           <p>Ad Space: Top Banner - Highly visible, site-wide placement</p>
-        </div>
+        </div> */}
 
-        <section className="flex-1 flex items-center justify-center w-full py-6 md:py-14 lg:py-20 xl:py-28">
-          <div className="container px-4 md:px-6">
+        <section className="flex-1 flex items-center justify-center w-full py-6 md:py-14 lg:py-20 xl:py-28 relative overflow-hidden">
+        <LinkIcon className="absolute top-10 left-10 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16" />
+          <Sparkles className="absolute bottom-10 right-10 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16" />
+          <Rocket className="absolute top-1/2 left-1/4 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16 hidden md:block" />
+          <QrCode className="absolute bottom-1/4 right-1/3 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16 hidden md:block" />
+          <Share2 className="absolute top-1/4 right-1/4 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16 hidden lg:block" />
+          <Zap className="absolute top-1/3 right-10 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16 hidden xl:block" />
+          <BarChart3 className="absolute bottom-20 left-1/3 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16 hidden xl:block" />
+          <Smartphone className="absolute top-20 right-1/5 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16 hidden 2xl:block" />
+          <Lock className="absolute top-3/4 left-20 text-slate-400 dark:text-slate-600 opacity-50 w-16 h-16 hidden 2xl:block" />
+          <div className="container px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
@@ -163,11 +172,11 @@ export default function HomePage() {
         </section>
 
         {/* Ad Placement 2: Between Sections */}
-        <div className="bg-green-100 p-4 text-center">
+        {/* <div className="bg-green-100 p-4 text-center">
           <p>Ad Space: Between Sections - Contextual placement for relevant ads</p>
-        </div>
+        </div> */}
 
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-slate-800">
+        <section id="features" className="w-full py-6 md:py-12 lg:py-16 bg-white dark:bg-slate-800">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Powerful Features</h2>
             <div className="grid gap-6 lg:grid-cols-3">
@@ -203,9 +212,9 @@ export default function HomePage() {
         </section>
 
         {/* Ad Placement 3: Sidebar (for larger screens) */}
-        <div className="hidden lg:block fixed right-0 top-1/2 transform -translate-y-1/2 bg-yellow-100 p-4">
+        {/* <div className="hidden lg:block fixed right-0 top-1/2 transform -translate-y-1/2 bg-yellow-100 p-4">
           <p>Ad Space: Sidebar - Persistent visibility on larger screens</p>
-        </div>
+        </div> */}
 
         <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-900 dark:bg-slate-50">
           <div className="container px-4 md:px-6">
@@ -227,14 +236,14 @@ export default function HomePage() {
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
               <ChainIcon className="h-6 w-6 text-slate-800 dark:text-slate-200" />
               <p className="text-center text-sm leading-loose text-slate-600 dark:text-slate-400 md:text-left">
-                © 2023 BiteLink. All rights reserved.
+                © 2024 BiteLink. All rights reserved.
               </p>
             </div>
             <div className="flex gap-4">
-              <Link className="text-sm hover:underline underline-offset-4" href="#">
+              <Link className="text-sm hover:underline underline-offset-4" href="/terms-of-service">
                 Terms of Service
               </Link>
-              <Link className="text-sm hover:underline underline-offset-4" href="/privacy">
+              <Link className="text-sm hover:underline underline-offset-4" href="/privacy-policy">
                 Privacy
               </Link>
             </div>
@@ -243,9 +252,9 @@ export default function HomePage() {
       </footer>
 
       {/* Ad Placement 4: Footer Banner */}
-      <div className="bg-red-100 p-2 text-center text-sm">
+      {/* <div className="bg-red-100 p-2 text-center text-sm">
         <p>Ad Space: Footer Banner - Last chance to engage users</p>
-      </div>
+      </div> */}
     </div>
   )
 }
